@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    div.container{
+      display:flex;
+      flex-direction: start;
+      justify-content: center;
+      align-items: center;
+      height:900px;
+      font-family: sans-serif;
+    }
+      th,tr,td{
+        border:1px solid #b3b3b3;
+        padding:10px;
+        transition: all 0.5s ease;
+      }
+      td{
+        border:none;
+      }
+      table{
+        border-collapse: collapse;
+        width: 100%;
+        height: 100%;
+      }
+      tr:nth-child(even){
+
+      }
+      thead{
+        background: cornflowerblue;
+      }
+      .header{
+        padding: 10px;
+        border:1px solid #b3b3b3;
+        display: flex;
+        justify-content: space-around;
+      }
+      input[type="text"]{
+        padding:2px 5px;
+        margin:0px 10px;
+        outline:0;
+      }
+      input[type='search']{
+        padding:5px 20px;
+        margin-bottom: 20px;
+      }
+      button{
+        padding:10px;
+        outline:0;
+        transition:all 0.5s ease-in;
+        border:none;
+        border-radius: 5px;
+        cursor:pointer;
+        letter-spacing: 1px;
+      }
+      button.add{
+        background-color: cornflowerblue;
+        color:azure;
+      }
+      button.edit{
+        background-color: skyblue;
+        color:azure;
+      }
+      button.remove{
+        background-color: red;
+        color:azure;
+      }
+      button:hover{
+        background:  #7300e6;
+      }
+      .mains{
+        margin-top: 10px;
+      }
+      .opacity, #opacity{
+        transition: opacity 0.5s ease-in;
+        opacity:0;
+      }
+      .display{
+        display:none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="main">
+        <div class="mains">
+          <input type="search" placeholder="Search" id="search" name="search" value="">
+        </div>
+        <form>
+        <div class="header">
+          <input type="text" tabindex="1" autofocus id="addItem" placeholder="Add item" name="" value="">
+          <input type="text" tabindex="2" id="addP" placeholder="Price" name="" value="">
+          <input type="text" tabindex="3" id="addQ" placeholder="Quantity" name="" value="">
+          <button type="button" id="addBtn" class="add" name="button">Add</button>
+        </div>
+      </form>
+        <table>
+          <thead>
+            <tr>
+              <th>Items</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Book</td>
+              <td>34</td>
+              <td>33</td>
+              <td><button type="button" id="remove" class="remove" name="button">Remove</button></td>
+              <td><button type="button" id="edit" class="edit" name="button">Edit</button></td>
+            </tr>
+            <tr>
+              <td>Gun</td>
+              <td>22</td>
+              <td>21</td>
+              <td><button type="button" id="remove" class="remove" name="button">Remove</button></td>
+              <td><button type="button" id="edit" class="edit" name="button">Edit</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded',function(){
+      let addBtn = document.getElementById('addBtn')
+      let search = document.getElementById('search')
+      let thead = document.getElementsByTagName('tbody')[0]
+      let addItem = document.getElementById('addItem')
+      let addPrice = document.getElementById('addP')
+      let addQuantity = document.getElementById('addQ')
+
+      addBtn.addEventListener('click',addItems)
+      search.addEventListener('keyup',searchItem)
+      thead.addEventListener('click',actionItem)
+
+      function searchItem(e){
+        let td = thead.getElementsByTagName('tr')
+        Array.from(td).forEach(function(item){
+            let values = e.target.value.toLowerCase()
+            let text = item.textContent
+            if(text.toLowerCase().indexOf(values)!=-1){
+                item.classList.remove('display')
+              setTimeout(function(){
+                item.classList.remove('opacity')
+              },0)
+            }else{
+              item.classList.add('opacity')
+              setTimeout(function(){
+                  item.classList.add('display')
+              },450)
+            }
+        })
+      }
+
+      function addItems(){
+        let addI = addItem.value
+        let addP = addPrice.value
+        let addQ = addQuantity.value
+        if(addItem!=='' && addP!=='' && !isNaN(addP) && addQ!=='' && !isNaN(addQ)){
+        let btn = document.createElement('button')
+        let btn2 = document.createElement('button')
+        btn.setAttribute('type','button')
+        btn.setAttribute('id','remove')
+        btn2.setAttribute('type','button')
+        btn2.className = 'edit'
+        btn2.textContent = 'Edit'
+        btn.className = 'remove'
+        btn.textContent = 'Remove'
+        let tr = document.createElement('tr')
+        let listItem = [addI,addP,addQ,btn,btn2]
+        thead.appendChild(tr)
+        tr.className ='opacity'
+        listItem.forEach(function(item){
+          setTimeout(function(){
+          tr.classList.remove('opacity')
+          let td = document.createElement('td')
+          td.append(item)
+          tr.appendChild(td)
+        },200)
+        })
+        document.getElementsByTagName('form')[0].reset()
+      }
+      return false
+      }
+
+      function actionItem(e){
+        e.preventDefault()
+        let className = e.target.id
+        console.log(e)
+        switch (className) {
+          case 'remove':
+            let child = e.target.parentElement.parentElement
+            let parent = child.parentElement
+            child.style.border="1.50px solid red"
+            child.classList.add('opacity')
+            setTimeout(function(){
+            parent.removeChild(child)
+          },800)
+          break;
+          case 'edit':
+            let edit = e.target.parentElement.parentElement
+                addBtn.classList.add('opacity')
+              setTimeout(function(){
+                addBtn.setAttribute('id','updBtn')
+                addBtn.textContent = 'Update'
+                addBtn.classList.remove('opacity')
+              },800)
+              addItem.value = edit.children[0].textContent
+              addPrice.value = edit.children[1].textContent
+              addQuantity.value = edit.children[2].textContent
+          break;
+          default:
+            return false;
+          break
+        }
+      }
+      })
+    </script>
+  </body>
+</html>

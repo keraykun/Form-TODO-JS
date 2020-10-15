@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      .a{
+        width: 720px;
+        height: 690px;
+        background: green;
+        position: relative;
+      }
+      .b{
+        width: 150px;
+        height: 120px;
+        background: rgba(155,33,55,0.22);
+        position: absolute;
+        top:0px;
+        text-shadow: 1px 1px 1px black;
+        color:azure;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="a">
+      <div class="b" id="b">
+        <br>
+        <br>
+        <br>
+        SPIDER MAN BOX
+      </div>
+    </div>
+    <script type="text/javascript">
+      let b = document.getElementById('b')
+        let walk = 0;
+        let left =0;
+      window.addEventListener('keydown',function(e){
+      for(let x=0; x<10; x++){
+        switch (e.key) {
+          case's':
+            if(walk!==550){ b.style.top = walk++ +'px'}
+              console.log('down by '+ walk)
+          break;
+          case'w':
+            if(walk!==0){ b.style.top = walk-- +'px'}
+              console.log('top by '+ walk)
+          break;
+          case'd':
+            if(left!==550){ b.style.left = left++ +'px'}
+                console.log('right by '+ left)
+          break;
+          case'a':
+            if(left!==0){ b.style.left = left-- +'px'}
+              console.log('left by '+ left)
+          break;
+          default:
+            return false;
+          break;
+        }
+      }
+    })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body{
+			justify-content: center;
+			display: flex;
+			align-items: center;
+			height: 800px;
+		}
+		div{
+			padding: 10px;
+			align-content: center;
+			justify-content: center;
+			position: relative;
+		}
+		input[type="text"]{
+			position: relative;
+		}
+		.div:before{
+			background-color:orange;
+			border-right-style: solid;
+			border-top-style:solid;
+			border-width: 10px;
+			border-color: orange;
+			border-left-style: solid;
+			border-left-color: white;
+			content:attr(datas);
+			position: absolute;
+			left:200px;
+			padding:10px;
+			font-size: 1.2rem;
+			width: 100%;
+		}
+		section{
+			display: flex;
+			flex-direction: column;
+			background-color: cornflowerblue;
+			padding: 5px;
+			box-sizing: border-box;
+			overflow: visible;
+		}
+		.divs{
+			width: 100px;
+			height: 100px;
+			background-color:pink;
+			border-right-style: solid;
+			border-top-style:solid;
+			border-width: 20px;
+			border-color: pink;
+			border-left-style: solid;
+			border-left-color: transparent;
+			transition: background-color 0.5s ease-out;
+			display:none;
+
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<section id="container">
+			<div datas>
+				<input placeholder="first name" class="field" id='name'  type="text" name="first name">
+			</div>
+			<div datas>
+				<input placeholder="last name" class="field" id='name'  type="text" name="last name">
+			</div>
+			<div datas>
+				<input placeholder="password" class="field" id='name'  type="password" name="password">
+			</div>
+			<div datas>
+				<input placeholder="phone" class="field" id='name'  type="phone" name="phone">
+			</div>
+			<div  datas>
+				<input placeholder="email" class="field" id="email" type="text" name="email">
+			</div>
+			<div data-set>
+				<button type="submit" type="button">Submit</button>
+			</div>
+		</section>
+	</form>
+</body>
+<script type="text/javascript">
+	let field = document.getElementsByTagName('input')
+	Array.from(field).forEach(function(input){
+	input.addEventListener('focus',function(e){
+		let fields = e.target
+			Array.from(field).forEach(function(attr){
+			if(attr==fields){
+				attr.parentElement.classList.add('div')
+				switch(attr.name){
+				case 'first name':
+				attr.parentElement.setAttribute('datas','Need to Sign this your real name')
+				break;
+				case 'last name':
+				attr.parentElement.setAttribute('datas','Need to Sign this last name')
+				break;
+				case 'password':
+				attr.parentElement.setAttribute('datas','You need to remember your password')
+				break;
+				case 'phone':
+				attr.parentElement.setAttribute('datas','You need to put your real contact number if incase emergency')
+				break;
+				case 'email':
+				attr.parentElement.setAttribute('datas','you need to put your email on this for needed')
+				break;
+				default:
+				return false;
+				break;
+				}
+			}else{
+				attr.parentElement.classList.remove('div')
+				attr.parentElement.setAttribute('datas','')
+			}
+			})
+		})
+	input.addEventListener('focusout',function(e){
+		let field = e.target.parentElement.classList.remove('div')
+	})
+	})
+</script>
+</html>
